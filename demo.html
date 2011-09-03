@@ -4,7 +4,7 @@
 	<head>
 	
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-		<script src="jqnakedtransition.js"></script>
+		<script src="jqnakedtransition-0.1.js"></script>
 		
 	</head>
 	
@@ -21,11 +21,11 @@
 				$('#run').click(function() {
 					params = {
 						strips : parseInt($('#strips').val()),
+						stripSpeed : parseInt($('#stripSpeed').val()),
 						stripDelay : parseInt($('#stripDelay').val()),
 						position : $('#position').val(),
 						direction : $('#direction').val(),
-						effect : $('#effect').val(),
-						newImage : images[imageIndex]
+						effect : $('#effect').val()
 					};
 					
 					for(param in params) {
@@ -33,8 +33,8 @@
 							$('#' + param +'-val').text(params[param]);
 						}
 					}
-					console.log(params);
-					$('#transition-div').jqNakedTransition(params);
+					
+					$('#transition-div').jqNakedTransition(images[imageIndex], params);
 					
 					imageIndex = imageIndex ? 0 : 1;
 				});
@@ -46,17 +46,18 @@
 			options = {
 				<div style="padding-left: 40px;">
 				strips : <span id="strips-val"></span>,<br/>
+				stripSpeed : <span id="stripSpeed-val"></span>,<br/>
 				stripDelay : <span id="stripDelay-val"></span>,<br/>
 				position : '<span id="position-val"></span>',<br/>
 				direction : '<span id="direction-val"></span>',<br/>
 				effect : '<span id="effect-val"></span>',<br/>
-				newImage : '<span id="newImage-val"></span>'<br/>
 				</div>
 			}
 			</div>
 			
 			Number of strips : <input id="strips" type="text" value="15"/><br/>
-			Delay between strips : <input id="stripDelay" type="text" value="50"/>ms<br/>
+			Speed of strips(ms) : <input id="stripSpeed" type="text" value="500"/><br/>
+			Delay between strips(ms) : <input id="stripDelay" type="text" value="50"/><br/>
 			Position : 
 			<select id="position">
 				<option value="top">top</option>

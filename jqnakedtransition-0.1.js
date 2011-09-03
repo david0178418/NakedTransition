@@ -19,7 +19,7 @@
 		element,
 		completeStrips;
 	
-	$.fn.jqNakedTransition = $.fn.jqNakedTransition = function(options){
+	$.fn.jqNakedTransition = $.fn.jqNakedTransition = function(img, options){
 	
 	init = function(el){
 		element = $(el);
@@ -29,19 +29,12 @@
 			return false;
 		}
 		
-		if(typeof options === 'string') {
-			options = { newImage : options };
-		}
-		
 		params = $.extend({}, $.fn.jqNakedTransition.defaults, options);
 		order = new Array(); // strips order array
 		imgInc = 0;
 		inc = 0;
 		stripsComplete = 0;
 		
-		
-		
-		img = params.newImage;
 		params.width = element.width();
 		params.height = element.height();
 		
@@ -133,10 +126,10 @@
 		if(params.position == 'curtain'){
 			currWidth = $('#fancy-trans-strip'+itemId).width();
 			$('#fancy-trans-strip'+itemId).css({ width: 0, opacity: 0, 'background-image': 'url('+img+')' });
-			$('#fancy-trans-strip'+itemId).animate({ width: currWidth, opacity: 1 }, 500, null, swapBackground);
+			$('#fancy-trans-strip'+itemId).animate({ width: currWidth, opacity: 1 }, params.stripSpeed, null, swapBackground);
 		} else {
 			$('#fancy-trans-strip'+itemId).css({ height: 0, opacity: 0, 'background-image': 'url('+img+')' });
-			$('#fancy-trans-strip'+itemId).animate({ height: params.height, opacity: 1 }, 500, null, swapBackground);
+			$('#fancy-trans-strip'+itemId).animate({ height: params.height, opacity: 1 }, params.stripSpeed, null, swapBackground);
 		}
 		
 		inc++;
@@ -182,11 +175,11 @@
 	// default values
 	$.fn.jqNakedTransition.defaults = {
 		strips: 15, // number of strips
+		stripSpeed: 500, 
 		stripDelay: 50, // delay beetwen strips in ms
 		position: 'alternate', // top, bottom, alternate, curtain
 		direction: 'fountainAlternate', // left, right, alternate, random, fountain, fountainAlternate
 		effect: '', // curtain, zipper, wave
-		newImage: '',
 		complete: null //function to run once animation is completed.
 	};
 	
