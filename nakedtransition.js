@@ -1,5 +1,5 @@
 /**
- * jqNakedTransition - jQuery plugin
+ * Naked Transition - jQuery plugin
  * @version: 0.1 (2011/09/02)
  * @requires jQuery v1.2.2 or later 
  * @author David Granado
@@ -19,7 +19,7 @@
 		element,
 		completeStrips;
 	
-	$.fn.jqNakedTransition = $.fn.jqNakedTransition = function(img, options){
+	$.fn.nakedTransition = $.fn.nakedTransition = function(img, options){
 	
 	init = function(el){
 		element = $(el);
@@ -29,7 +29,7 @@
 			return false;
 		}
 		
-		params = $.extend({}, $.fn.jqNakedTransition.defaults, options);
+		params = $.extend({}, $.fn.nakedTransition.defaults, options);
 		order = new Array(); // strips order array
 		imgInc = 0;
 		inc = 0;
@@ -173,7 +173,7 @@
 };
 
 	// default values
-	$.fn.jqNakedTransition.defaults = {
+	$.fn.nakedTransition.defaults = {
 		strips: 15, // number of strips
 		stripSpeed: 500, 
 		stripDelay: 50, // delay beetwen strips in ms

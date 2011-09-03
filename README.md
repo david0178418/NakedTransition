@@ -18,11 +18,11 @@ Additionally, the new image must be the same dimensions of the original image.
 
 davidgranado.com/demos/naked-transitions
 
-`$('div-selector').jqNakedTransition(newImageLocation)`
+`$('div-selector').nakedTransition(newImageLocation)`
 
 newImageLocation - A string url of the new image to replace the image in the div.  If this form is used, a default animation will run.
 
-`$('div-selector').jqNakedTransition(newImageLocation, params)`
+`$('div-selector').nakedTransition(newImageLocation, params)`
 
 newImageLocation - A string url of the new image to replace the image in the div.  If this form is used, a default animation will run.
 
