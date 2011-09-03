@@ -7,12 +7,11 @@ Naked Transition is an image transition plugin for jQuery based on jqFancyTransi
 ###Required Markup
 Naked Transtion works by replacing the background image of a div with another image that is transitioned in.  By the end of the transition, the background-image style property will be replaced with the new image.  As a result, the following css is required on the div:
 
-`
 background-image
 position - absolute or relative
 width - must be the width of the background image
 height - must be the height of the background image
-`
+
 Additionally, the new image must be the same dimensions of the original image.
 
 ### Running function
