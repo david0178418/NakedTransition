@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+	
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+		<script src="jqnakedtransition.js"></script>
+		
+	</head>
+	
+	<body>
+		<script>
+			
+			$(function() {
+				var images =[
+					'http://dummyimage.com/600x400/000/fff&text=image1',
+					'http://dummyimage.com/600x400/aaa/000&text=image2'
+				],
+				imageIndex = 1;
+				
+				$('#run').click(function() {
+					params = {
+						strips : parseInt($('#strips').val()),
+						stripDelay : parseInt($('#stripDelay').val()),
+						position : $('#position').val(),
+						direction : $('#direction').val(),
+						effect : $('#effect').val(),
+						newImage : images[imageIndex]
+					};
+					
+					for(param in params) {
+						if(params.hasOwnProperty(param)) {
+							$('#' + param +'-val').text(params[param]);
+						}
+					}
+					console.log(params);
+					$('#transition-div').jqNakedTransition(params);
+					
+					imageIndex = imageIndex ? 0 : 1;
+				});
+			});
+			
+		</script>
+		<div style="width: 400px; float: left;">
+			<div>
+			options = {
+				<div style="padding-left: 40px;">
+				strips : <span id="strips-val"></span>,<br/>
+				stripDelay : <span id="stripDelay-val"></span>,<br/>
+				position : '<span id="position-val"></span>',<br/>
+				direction : '<span id="direction-val"></span>',<br/>
+				effect : '<span id="effect-val"></span>',<br/>
+				newImage : '<span id="newImage-val"></span>'<br/>
+				</div>
+			}
+			</div>
+			
+			Number of strips : <input id="strips" type="text" value="15"/><br/>
+			Delay between strips : <input id="stripDelay" type="text" value="50"/>ms<br/>
+			Position : 
+			<select id="position">
+				<option value="top">top</option>
+				<option value="bottom">bottom</option>
+				<option value="alternate">alternate</option>
+				<option value="curtain">curtain</option>
+			</select>
+			<br/>
+			Direction : 
+			<select id="direction">
+				<option value="left">left</option>
+				<option value="right">right</option>
+				<option value="alternate">alternate</option>
+				<option value="fountain">fountain</option>
+				<option value="fountainAlternate">fountainAlternate</option>
+				<option value="random">random</option>
+			</select>
+			<br/>
+			Predefined Effect?: 
+			<select id="effect">
+				<option value=''>none</option>
+				<option value="curtain">curtain</option>
+				<option value="zipper">zipper</option>
+				<option value="wave">wave</option>
+			</select>
+			<br />
+			
+			<input type="button" id="run" value="Run Transition"/>
+		</div>
+		<div style="float: left; margin-left: 30px;">
+			<div id="transition-div" style="position: absolute; width: 600px; height: 400px; background-image: url('http://dummyimage.com/600x400/000/fff&text=image1')">
+			</div>
+		</div>
+		
+	</body>
+
+</html>
