@@ -31,9 +31,15 @@ newImageLocation - A string url of the new image to replace the image in the div
 params - an object containing the config options for the animation:
 
 **strips** Integer - number of strips in animation. *(default 15)*
+
 **stripSpeed** Integer - time required for each strip to complete animation in ms.*(default 500)*
+
 **stripDelay** Integer - time between the start of one strip's animation and the start of the next strip's animation animation in ms. *(default 500)*
+
 **position** String with possible values 'top', 'bottom', 'alternate', 'curtain' - describes where the strips will the animation sequence. *(default alternate)*
+
 **direction** String with possible values 'left', 'right', 'alternate', 'random', 'fountain', 'fountainAlternate' - describes which strip will animate first and in which order the next animation will proceed. *(default fountainAlternate)*
+
 **effect** String with possible values 'curtain', 'zipper', 'wave' Preset animations that will override many of the other options *(default none)*
+
 **complete** function to run once animation is completed. *(default none)*
