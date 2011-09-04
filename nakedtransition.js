@@ -16,19 +16,25 @@
 		stripInt,
 		imgInt,
 		imgBuffer,
+		transitioning,
 		element,
-		completeStrips;
+		$strip,
+		completeStrips,
+		stripStartingCss,
+		stripEndingCss;
 	
-	$.fn.nakedTransition = $.fn.nakedTransition = function(img, options){
+	$.fn.nakedTransition = $.fn.nakedTransition = function(newImg, options){
 	
 	init = function(el){
 		element = $(el);
 		
 		//return false if midtransition
-		if(element.children('.fancy-trans-strip').length) {
+		if(transitioning) {
 			return false;
 		}
 		
+		transitioning = true;
+		img = newImg;
 		params = $.extend({}, $.fn.nakedTransition.defaults, options);
 		order = new Array(); // strips order array
 		imgInc = 0;
@@ -44,14 +50,14 @@
 		if(params.effect == 'curtain'){ params.direction = 'alternate'; params.position = 'curtain'; }
 
 		// width of strips
-		stripWidth = parseInt(params.width / params.strips); 
+		stripWidth = (params.width / params.strips) | 0; 
 		gap = params.width - stripWidth*params.strips; // number of pixels
 		stripLeft = 0;
 		
 		odd = 1;
 		// creating bars
 		// and set their position
-		for(j=1; j < params.strips+1; j++){
+		for(var j=1; j < params.strips+1; j++){
 			
 			if( gap > 0){
 				tstripWidth = stripWidth + 1;
@@ -60,10 +66,13 @@
 				tstripWidth = stripWidth;
 			}
 			
-			element.append("<div class='fancy-trans-strip' id='fancy-trans-strip"+j+"' style='width:"+tstripWidth+"px; height:"+params.height+"px; float: left; position: absolute;'></div>");
+			$strip = $("<div class='fancy-trans-strip' id='fancy-trans-strip"+j+"' style='    width:"+tstripWidth+"px; height:"+params.height+"px; float: left; position: absolute;'></div>");
+
+			element.append($strip);
 							
 			// positioning bars
-			$('#fancy-trans-strip'+j).css({ 
+			$strip.css({
+				//TODO Examine for ability to add 'reveal' vs 'pieces' option.  Currently set to 'pieces'
 				'background-position': -stripLeft +'px ' + (params.position == 'top' ? 'bottom' : 'top'), //pin background image to top or bottom depending on direction
 				'left' : stripLeft 
 			});
@@ -71,15 +80,15 @@
 			stripLeft += tstripWidth;
 			
 			if(params.position == 'bottom')
-				$('#fancy-trans-strip'+j).css( 'bottom', 0 );
+				$strip.css( 'bottom', 0 );
 			
 			if (j%2 == 0 && params.position == 'alternate')
-				$('#fancy-trans-strip'+j).css( 'bottom', 0 );
+				$strip.css( 'bottom', 0 );
 			
 			// bars order
 				// fountain
 				if(params.direction == 'fountain' || params.direction == 'fountainAlternate') { 
-					order[j-1] = parseInt(params.strips/2) - (parseInt(j/2)*odd);
+					order[j-1] = (params.strips/2) | 0 - (((j/2) | 0 ) * odd);
 					order[params.strips-1] = params.strips; // fix for odd number of bars
 					odd *= -1;
 				} 
@@ -90,13 +99,13 @@
 		}
 		
 		imgBuffer = $('<img />').load(function() {
-			$.transition(el);
+			transition(el);
 		}).attr('src', img);
 		
 	};
 
 	// transition
-	$.transition = function(el,direction){
+	function transition(el,direction){
 		
 		if(params.pause == true) return;
 		
@@ -122,15 +131,33 @@
 			clearInterval(stripInt);
 			return;
 		}
+
+		stripStartingCss = {
+			'background-image' : "url('" + img +"')"
+		};
+
+		stripEndingCss = {};
+
+		if(params.stripFade) {
+			
+			stripStartingCss.opacity = 0;
+			stripEndingCss.opacity = 1;
+		}
 		
 		if(params.position == 'curtain'){
 			currWidth = $('#fancy-trans-strip'+itemId).width();
-			$('#fancy-trans-strip'+itemId).css({ width: 0, opacity: 0, 'background-image': 'url('+img+')' });
-			$('#fancy-trans-strip'+itemId).animate({ width: currWidth, opacity: 1 }, params.stripSpeed, null, swapBackground);
-		} else {
-			$('#fancy-trans-strip'+itemId).css({ height: 0, opacity: 0, 'background-image': 'url('+img+')' });
-			$('#fancy-trans-strip'+itemId).animate({ height: params.height, opacity: 1 }, params.stripSpeed, null, swapBackground);
+			
+			stripStartingCss.width = 0;
+			stripEndingCss.width = $('#fancy-trans-strip'+itemId).width();
+		} 
+		
+		else {
+			stripStartingCss.height = 0;
+			stripEndingCss.height = params.height;
 		}
+
+		$('#fancy-trans-strip'+itemId).css(stripStartingCss)
+			.animate(stripEndingCss, params.stripSpeed, null, swapBackground);
 		
 		inc++;
 	};
@@ -166,6 +193,7 @@
 			if(params.complete) {
 				params.complete();
 			}
+			transitioning = false;
 		}
 	}
 	
@@ -175,7 +203,8 @@
 	// default values
 	$.fn.nakedTransition.defaults = {
 		strips: 15, // number of strips
-		stripSpeed: 500, 
+		stripSpeed: 500, // time for strip to complete animation in ms
+		stripFade : true, //determines if strip will fade in during animation
 		stripDelay: 50, // delay beetwen strips in ms
 		position: 'alternate', // top, bottom, alternate, curtain
 		direction: 'fountainAlternate', // left, right, alternate, random, fountain, fountainAlternate
