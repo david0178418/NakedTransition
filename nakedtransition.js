@@ -7,54 +7,59 @@
 **/
 
 (function($) {
+	"use strict";
 	var params,
-		level,
 		img,
 		order,
 		imgInc,
 		inc,
 		stripInt,
-		imgInt,
 		imgBuffer,
 		transitioning,
 		element,
 		$strip,
-		completeStrips,
+		order,
+		stripsComplete,
 		stripStartingCss,
 		stripEndingCss;
 	
-	$.fn.nakedTransition = $.fn.nakedTransition = function(newImg, options){
+	$.fn.nakedTransition = function(newImg, options){
 	
-	init = function(el){
-		element = $(el);
+	function init(el){
+		var transitioning,
+			imgInc = 0,
+			inc = 0,
+			stripLeft = 0,
+			stripWidth,
+			odd = 1,
+			gap,
+			tstripWidth;
 		
 		//return false if midtransition
 		if(transitioning) {
 			return false;
 		}
 		
-		transitioning = true;
-		img = newImg;
+		img = newImg,
+		element = $(el),
+		transitioning = true,
+		stripsComplete = 0,
+			
 		params = $.extend({}, $.fn.nakedTransition.defaults, options);
 		order = new Array(); // strips order array
-		imgInc = 0;
-		inc = 0;
-		stripsComplete = 0;
 		
 		params.width = element.width();
 		params.height = element.height();
 		
-
+		/*
 		if(params.effect == 'zipper'){ params.direction = 'alternate'; params.position = 'alternate'; }
 		if(params.effect == 'wave'){ params.direction = 'alternate'; params.position = 'top'; }
-		if(params.effect == 'curtain'){ params.direction = 'alternate'; params.position = 'curtain'; }
-
+		if(params.effect == 'curtain'){ params.direction = 'alternate'; params.position = 'curtain'; }*/
+		
 		// width of strips
 		stripWidth = (params.width / params.strips) | 0; 
 		gap = params.width - stripWidth*params.strips; // number of pixels
-		stripLeft = 0;
 		
-		odd = 1;
 		// creating bars
 		// and set their position
 		for(var j=1; j < params.strips+1; j++){
@@ -103,13 +108,13 @@
 		}).attr('src', img);
 		
 	};
-
+	
 	// transition
 	function transition(el,direction){
 		
 		if(params.pause == true) return;
 		
-		stripInt = setInterval(function() { $.strips(order[inc], el)  }, params.stripDelay);
+		stripInt = setInterval(function() { strips(order[inc], el)  }, params.stripDelay);
 		
 		inc = 0;
 
@@ -124,9 +129,9 @@
 
 
 	// strips animations
-	$.strips = function(itemId){
-
-		temp = params.strips;
+	function strips(itemId){
+		var temp = params.strips;
+		
 		if (inc == temp) {
 			clearInterval(stripInt);
 			return;
