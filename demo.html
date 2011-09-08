@@ -4,7 +4,7 @@
 	<head>
 	
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-		<script src="nakedtransition.js"></script>
+		<script src="nakedtransition-0.2.js"></script>
 		
 	</head>
 	
@@ -12,9 +12,9 @@
 		<script>
 			
 			$(function() {
-				var images =[
+				var images = [
 					'http://dummyimage.com/600x400/000/fff&text=image1',
-					'http://dummyimage.com/600x400/aaa/000&text=image2'
+					'http://placekitten.com/600/400'
 				],
 				imageIndex = 1;
 				
@@ -22,10 +22,15 @@
 					params = {
 						strips : parseInt($('#strips').val()),
 						stripSpeed : parseInt($('#stripSpeed').val()),
+						stripFade : $('#stripFade:checked').length ? true : false,
+						reveal : $('#reveal:checked').length ? true : false,
 						stripDelay : parseInt($('#stripDelay').val()),
-						position : $('#position').val(),
-						direction : $('#direction').val(),
-						effect : $('#effect').val()
+						stripExtendFrom : $('#stripExtendFrom').val(),
+						propagateFrom : $('#propagateFrom').val(),
+						//effect : $('#effect').val(),
+						complete : function() {
+							imageIndex = imageIndex ? 0 : 1;
+						}
 					};
 					
 					for(param in params) {
@@ -35,8 +40,6 @@
 					}
 					
 					$('#transition-div').nakedTransition(images[imageIndex], params);
-					
-					imageIndex = imageIndex ? 0 : 1;
 				});
 			});
 			
@@ -47,45 +50,49 @@
 				<div style="padding-left: 40px;">
 				strips : <span id="strips-val"></span>,<br/>
 				stripSpeed : <span id="stripSpeed-val"></span>,<br/>
+				stripFade : <span id="stripFade-val"></span><br/>
+				reveal : <span id="reveal-val"></span><br/>
 				stripDelay : <span id="stripDelay-val"></span>,<br/>
-				position : '<span id="position-val"></span>',<br/>
-				direction : '<span id="direction-val"></span>',<br/>
-				effect : '<span id="effect-val"></span>',<br/>
+				stripExtendFrom : '<span id="stripExtendFrom-val"></span>',<br/>
+				propagateFrom : '<span id="propagateFrom-val"></span>',<br/>
+				<!--effect : '<span id="effect-val"></span>',<br/>-->
 				</div>
 			}
 			</div>
 			
-			Number of strips : <input id="strips" type="text" value="15"/><br/>
-			Speed of strips(ms) : <input id="stripSpeed" type="text" value="500"/><br/>
+			Number of strips : <input id="strips" type="text" value="1"/><br/>
+			Speed of strips(ms) : <input id="stripSpeed" type="text" value="750"/><br/>
+			Fade strips : <input id="stripFade" type="checkbox" checked /><br/>
+			Reveal image? : <input id="reveal" type="checkbox" /><br/>
 			Delay between strips(ms) : <input id="stripDelay" type="text" value="50"/><br/>
-			Position : 
-			<select id="position">
+			Extend Strip From : 
+			<select id="stripExtendFrom">
+				<option value="none">none</option>
 				<option value="top">top</option>
 				<option value="bottom">bottom</option>
 				<option value="alternate">alternate</option>
-				<option value="curtain">curtain</option>
 			</select>
 			<br/>
-			Direction : 
-			<select id="direction">
+			Propagate From : 
+			<select id="propagateFrom">
 				<option value="left">left</option>
 				<option value="right">right</option>
-				<option value="alternate">alternate</option>
-				<option value="fountain">fountain</option>
-				<option value="fountainAlternate">fountainAlternate</option>
+				<option value="center">center</option>
+				<option value="ends">ends</option>
 				<option value="random">random</option>
 			</select>
 			<br/>
-			Predefined Effect?: 
+			<!--Predefined Effect?: 
 			<select id="effect">
 				<option value=''>none</option>
 				<option value="curtain">curtain</option>
 				<option value="zipper">zipper</option>
 				<option value="wave">wave</option>
-			</select>
+			</select>-->
 			<br />
 			
-			<input type="button" id="run" value="Run Transition"/>
+			<input type="button" id="run" value="Run Transition"/><br/>
+			<small>v0.1.1</small>
 		</div>
 		<div style="float: left; margin-left: 30px;">
 			<div id="transition-div" style="position: absolute; width: 600px; height: 400px; background-image: url('http://dummyimage.com/600x400/000/fff&text=image1')">
