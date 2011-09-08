@@ -30,16 +30,18 @@ newImageLocation - A string url of the new image to replace the image in the div
 
 params - an object containing the config options for the animation:
 
-**strips** Integer - number of strips in animation. *(default 15)*
+**strips** Integer - number of strips in animation. *(default 1)*
 
-**stripSpeed** Integer - time required for each strip to complete animation in ms.*(default 500)*
+**stripSpeed** Integer - time required for each strip to complete animation in ms.*(default 750)*
 
-**stripDelay** Integer - time between the start of one strip's animation and the start of the next strip's animation animation in ms. *(default 500)*
+**stripDelay** Integer - time between the start of one strip's animation and the start of the next strip's animation animation in ms. *(default 50)*
 
-**position** String with possible values 'top', 'bottom', 'alternate', 'curtain' - describes where the strips will the animation sequence. *(default alternate)*
+**stripFade** Boolean - determines if the strip will fade in as the animation progresses *(default true)*
 
-**direction** String with possible values 'left', 'right', 'alternate', 'random', 'fountain', 'fountainAlternate' - describes which strip will animate first and in which order the next animation will proceed. *(default fountainAlternate)*
+**stripExtendFrom** String with possible values 'top', 'bottom', 'alternate', 'none' - describes where the stips will extend from. *(default none)*
 
-**effect** String with possible values 'curtain', 'zipper', 'wave' Preset animations that will override many of the other options *(default none)*
+**propagateFrom** String with possible values 'left', 'right', 'random', 'center', 'ends', 'fountainAlternate' - describes which strip will animate first and in which order the next animation will proceed. *(default fountainAlternate)*
 
-**complete** function to run once animation is completed. *(default none)*
+**reveal** Boolean - if true, the strips will "wipe" the image into view.  Otherwise, each strip will be an independent piece of the image that moves into place *(default true)*
+
+**complete** function to run once animation is completed. *(default undefined)*
