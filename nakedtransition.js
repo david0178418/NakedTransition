@@ -214,7 +214,7 @@
 		stripSpeed: 750, // time for strip to complete animation in ms
 		stripFade: true, //determines if strip will fade in during animation
 		stripDelay: 50, // delay beetwen strips in ms
-		stripstripExtendFrom: 'none', //top, bottom, alternate, none
+		stripExtendFrom: 'none', //top, bottom, alternate, none
 		reveal: true,
 		
 		
